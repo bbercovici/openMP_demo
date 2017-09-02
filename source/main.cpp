@@ -2,6 +2,7 @@
 #include <iostream>
 #include <chrono>
 #include <cassert>
+#include <omp.h> // required only if using omp_get_num_threads() 
 
 
 void demo_omp(double * average_run_time, int runs) {
