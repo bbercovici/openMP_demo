@@ -46,7 +46,7 @@ void demo_omp(double * average_run_time, int runs) {
 	elapsed_seconds = end - start;
 	average_run_time[2] += elapsed_seconds.count() / runs;
 
-	// Array summation without OMP
+	// Array summation with OMP
 	int sum_omp = 0;
 	start = std::chrono::system_clock::now();
 	#pragma omp parallel for reduction(+:sum_omp)
