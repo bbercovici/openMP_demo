@@ -66,8 +66,6 @@ if (GCC_VERSION VERSION_LESS 4.7 OR APPLE) # if true, either running on a CCAR c
 		endif()
 endif()
 
-set (CMAKE_PREFIX_PATH ${QT_CMAKE_CONFIG_MAC} ${VTK_BUILD_DIR})
-
 
 project(${EXE_NAME})
 
