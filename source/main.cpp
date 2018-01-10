@@ -100,7 +100,6 @@ void demo_omp(double * average_run_time, int runs){
 	double sum = 0;
 	start = std::chrono::system_clock::now();
 	for (unsigned int i = 0; i < N; ++i) {
-		std::cout << omp_get_num_threads() << std::endl;
 		sum += (std::sqrt(array[i]) + std::pow(array[i],1.5))/(i * i + 1);
 	}
 	end = std::chrono::system_clock::now();
@@ -112,7 +111,6 @@ void demo_omp(double * average_run_time, int runs){
 	start = std::chrono::system_clock::now();
 	#pragma omp parallel for reduction(+:sum_omp)
 	for (unsigned int i = 0; i < N; ++i) {
-		std::cout << omp_get_num_threads() << std::endl;
 		sum_omp += (std::sqrt(array_omp[i]) + std::pow(array_omp[i],1.5))/(i * i + 1);
 	}
 
