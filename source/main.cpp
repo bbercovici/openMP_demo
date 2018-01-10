@@ -4,9 +4,9 @@
 #include <cassert>
 #include <omp.h> // required only if using omp_get_num_threads() 
 #include <cmath>
+#include <armadillo>
 
-
-void demo_omp(double * average_run_time, int runs) {
+void demo_omp_arrays(double * average_run_time, int runs) {
 
 
 	std::chrono::time_point<std::chrono::system_clock> start, end;
@@ -67,7 +67,64 @@ void demo_omp(double * average_run_time, int runs) {
 }
 
 
+void demo_omp(double * average_run_time, int runs){
 
+	std::chrono::time_point<std::chrono::system_clock> start, end;
+	std::chrono::duration<double> elapsed_seconds ;
+	unsigned int N = 1000000;
+
+	// Array assignment without OMP
+	double * array = new double[N];
+
+	start = std::chrono::system_clock::now();
+	for (unsigned int i = 0; i < N; ++i) {
+		array[i] = i;
+	}
+	end = std::chrono::system_clock::now();
+	elapsed_seconds = end - start;
+	average_run_time[0] += elapsed_seconds.count() / runs;
+
+	// Array assignment with OMP
+	double * array_omp = new double[N];
+	start = std::chrono::system_clock::now();
+	#pragma omp parallel for
+	for (unsigned int i = 0; i < N; ++i) {
+		array_omp[i] = i;
+	}
+	end = std::chrono::system_clock::now();
+	elapsed_seconds = end - start;
+	average_run_time[1] += elapsed_seconds.count() / runs;
+
+
+	// Array summation without OMP
+	double sum = 0;
+	start = std::chrono::system_clock::now();
+	for (unsigned int i = 0; i < N; ++i) {
+		sum += (std::sqrt(array[i]) + std::pow(array[i],1.5))/(i * i + 1);
+	}
+	end = std::chrono::system_clock::now();
+	elapsed_seconds = end - start;
+	average_run_time[2] += elapsed_seconds.count() / runs;
+
+	// Array summation with OMP
+	double sum_omp = 0;
+	start = std::chrono::system_clock::now();
+	#pragma omp parallel for reduction(+:sum_omp)
+	for (unsigned int i = 0; i < N; ++i) {
+		sum_omp += (std::sqrt(array_omp[i]) + std::pow(array_omp[i],1.5))/(i * i + 1);
+	}
+
+	end = std::chrono::system_clock::now();
+	elapsed_seconds = end - start;
+	average_run_time[3] += elapsed_seconds.count() / runs;
+	
+	delete[](array);
+	delete[](array_omp);
+
+
+
+
+}
 
 
 int main() {
@@ -78,7 +135,7 @@ int main() {
 	std::cout << "Compiled by an OpenMP-compliant implementation.\n";
 # endif
 
-	int runs = 1000;
+	int runs = 100;
 	double average_run_time[4] = {0, 0, 0, 0};
 
 	for (int i = 0; i < runs; ++i ) {
