@@ -52,18 +52,16 @@ message("Default compiler is " ${CMAKE_C_COMPILER})
 message("Default ${CMAKE_C_COMPILER} version is " ${GCC_VERSION})
 
 # Set up the C++11 and OMP compile flags 
-if (GCC_VERSION VERSION_LESS 4.7 OR APPLE) # if true, either running on a CCAR computer or a Mac (Clang has messed-up version IDs)
-		if (NOT APPLE) # If NOT APPLE, then running on a CCAR computer. The proper compiler should have already been set
-        	set(CMAKE_CXX_FLAGS "-std=c++0x")
-        elseif(EXISTS ${OMP_FRIENDLY_GCC_PATH}) # Else running on a MAC. Will attempt to switch compiler to get the OMP-friendly GCC 6.3.0_1 from Homebrew
-        		message("Switching to OMP-friendly GCC ")
-	        	set(CMAKE_C_COMPILER ${OMP_FRIENDLY_GCC_PATH}gcc-${OMP_FRIENDLY_GCC_MAJOR_VERSION} CACHE STRING "C Compiler" FORCE)
-				set(CMAKE_CXX_COMPILER ${OMP_FRIENDLY_GCC_PATH}g++-${OMP_FRIENDLY_GCC_MAJOR_VERSION} CACHE STRING "C++ Compiler" FORCE)
-				set(CMAKE_CXX_FLAGS "-std=c++17")
+if (NOT APPLE) 
+	set(CMAKE_CXX_FLAGS "-std=c++17")
+elseif(EXISTS ${OMP_FRIENDLY_GCC_PATH}) # Else running on a MAC. Will attempt to switch compiler to get the OMP-friendly GCC 6.3.0_1 from Homebrew
+		message("Switching to OMP-friendly GCC ")
+    	set(CMAKE_C_COMPILER ${OMP_FRIENDLY_GCC_PATH}gcc-${OMP_FRIENDLY_GCC_MAJOR_VERSION} CACHE STRING "C Compiler" FORCE)
+		set(CMAKE_CXX_COMPILER ${OMP_FRIENDLY_GCC_PATH}g++-${OMP_FRIENDLY_GCC_MAJOR_VERSION} CACHE STRING "C++ Compiler" FORCE)
+		set(CMAKE_CXX_FLAGS "-std=c++17")
 
-			else()# no OMP-compliant compiler was found on this mac. 
-				message(FATAL_ERROR "No OMP-compliant compiler was found on this mac.")
-		endif()
+	else()# no OMP-compliant compiler was found on this mac. 
+		message(FATAL_ERROR "No OMP-compliant compiler was found on this mac.")
 endif()
 
 
