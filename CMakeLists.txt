@@ -34,12 +34,6 @@ set (OMP_FRIENDLY_GCC_PATH /usr/local/Cellar/gcc/7.1.0/bin/)
 get_filename_component(dirName ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 set(EXE_NAME ${dirName} CACHE STRING "Name of executable to be created.")
 
-# Check what version of the compiler is installed
-execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpversion
-                OUTPUT_VARIABLE GCC_VERSION)
-message("Default compiler is " ${CMAKE_C_COMPILER})
-message("Default ${CMAKE_C_COMPILER} version is " ${GCC_VERSION})
-
 # Set up the C++17 and OMP compile flags 
 set(CMAKE_CXX_FLAGS "-std=c++17")
 
@@ -48,6 +42,7 @@ if(APPLE)
 		message("Switching to OMP-friendly GCC ")
     	set(CMAKE_C_COMPILER ${OMP_FRIENDLY_GCC_PATH}gcc-${OMP_FRIENDLY_GCC_MAJOR_VERSION} CACHE STRING "C Compiler" FORCE)
 		set(CMAKE_CXX_COMPILER ${OMP_FRIENDLY_GCC_PATH}g++-${OMP_FRIENDLY_GCC_MAJOR_VERSION} CACHE STRING "C++ Compiler" FORCE)
+	    set (CMAKE_CXX_STANDARD 14)
 
 	else()# no OMP-compliant compiler was found on this mac. 
 		message(FATAL_ERROR "No OMP-compliant compiler was found on this mac.")
