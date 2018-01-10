@@ -69,11 +69,14 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 
 
-
 # Find Armadillo 
 find_package(Armadillo REQUIRED )
 include_directories(${ARMADILLO_INCLUDE_DIRS})
 
+
+# Find Boost
+find_package(Boost COMPONENTS filesystem system REQUIRED) 
+include_directories(${Boost_INCLUDE_DIRS}) 
 
 
 
