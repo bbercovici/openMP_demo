@@ -57,6 +57,7 @@ void demo_omp(double * average_run_time, int runs) {
 	end = std::chrono::system_clock::now();
 	elapsed_seconds = end - start;
 	average_run_time[3] += elapsed_seconds.count() / runs;
+	
 	assert(sum_omp == sum);
 
 

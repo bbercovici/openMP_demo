@@ -69,9 +69,25 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 
 
+
+# Find Armadillo 
+find_package(Armadillo REQUIRED )
+include_directories(${ARMADILLO_INCLUDE_DIRS})
+
+
+
+
+
 # Add source files in root directory
 add_executable(${EXE_NAME}
 source/main.cpp
 )
 message("C++ flags: ${CMAKE_CXX_FLAGS}")
+
+set(library_dependencies
+${ARMADILLO_LIBRARIES})
+
+
+target_link_libraries(${EXE_NAME} ${library_dependencies})
+
 
