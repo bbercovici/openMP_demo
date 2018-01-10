@@ -11,7 +11,7 @@ void demo_omp(double * average_run_time, int runs) {
 
 	std::chrono::time_point<std::chrono::system_clock> start, end;
 	std::chrono::duration<double> elapsed_seconds ;
-	unsigned int N = 10000000;
+	unsigned int N = 1000000;
 
 	// Array assignment without OMP
 	int * array = new int[N];
