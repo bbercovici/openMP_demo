@@ -79,8 +79,6 @@ find_package(Boost COMPONENTS filesystem system REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS}) 
 
 
-
-
 # Add source files in root directory
 add_executable(${EXE_NAME}
 source/main.cpp
