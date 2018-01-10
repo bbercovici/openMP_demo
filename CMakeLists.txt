@@ -34,31 +34,19 @@ set (OMP_FRIENDLY_GCC_PATH /usr/local/Cellar/gcc/7.1.0/bin/)
 get_filename_component(dirName ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 set(EXE_NAME ${dirName} CACHE STRING "Name of executable to be created.")
 
-if (${CMAKE_MINOR_VERSION} EQUAL 0 AND NOT APPLE) # if true, running on a CCAR computer (old CMAKE and RedHat)
-	set(CMAKE_C_COMPILER /usr/local/gcc/bin/gcc CACHE STRING "C Compiler" FORCE)
-	set(CMAKE_CXX_COMPILER /usr/local/gcc/bin/g++ CACHE STRING "C++ Compiler" FORCE)
-elseif(NOT APPLE)
-	# Not sure about this. Should work on a modern Ubuntu system
-	set(CMAKE_C_COMPILER /usr/bin/gcc CACHE STRING "C Compiler" FORCE)
-	set(CMAKE_CXX_COMPILER /usr/bin/g++ CACHE STRING "C++ Compiler" FORCE)
-	# set (CMAKE_CXX_STANDARD 17)
-	message("This is a Linux machine. CMAKE_CXX_STANDARD 17 used")
-endif()
-
 # Check what version of the compiler is installed
 execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpversion
                 OUTPUT_VARIABLE GCC_VERSION)
 message("Default compiler is " ${CMAKE_C_COMPILER})
 message("Default ${CMAKE_C_COMPILER} version is " ${GCC_VERSION})
 
-# Set up the C++11 and OMP compile flags 
-if (NOT APPLE) 
-	set(CMAKE_CXX_FLAGS "-std=c++17")
-elseif(EXISTS ${OMP_FRIENDLY_GCC_PATH}) # Else running on a MAC. Will attempt to switch compiler to get the OMP-friendly GCC 6.3.0_1 from Homebrew
+# Set up the C++17 and OMP compile flags 
+set(CMAKE_CXX_FLAGS "-std=c++17")
+
+if(APPLE AND EXISTS ${OMP_FRIENDLY_GCC_PATH}) # Else running on a MAC. Will attempt to switch compiler to get the OMP-friendly GCC 6.3.0_1 from Homebrew
 		message("Switching to OMP-friendly GCC ")
     	set(CMAKE_C_COMPILER ${OMP_FRIENDLY_GCC_PATH}gcc-${OMP_FRIENDLY_GCC_MAJOR_VERSION} CACHE STRING "C Compiler" FORCE)
 		set(CMAKE_CXX_COMPILER ${OMP_FRIENDLY_GCC_PATH}g++-${OMP_FRIENDLY_GCC_MAJOR_VERSION} CACHE STRING "C++ Compiler" FORCE)
-		set(CMAKE_CXX_FLAGS "-std=c++17")
 
 	else()# no OMP-compliant compiler was found on this mac. 
 		message(FATAL_ERROR "No OMP-compliant compiler was found on this mac.")
