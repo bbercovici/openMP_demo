@@ -89,7 +89,7 @@ int main() {
 	std::cout << "\t With OMP: " << average_run_time[1] << " s" <<  std::endl;
 	if (average_run_time[1] < average_run_time[0]) {
 		std::cout << "\t Absolute difference: " << average_run_time[0] - average_run_time[1] << " s in favor of OMP" <<  std::endl;
-		std::cout << "\t Relative difference: OMP is " << 100 * abs(average_run_time[1] - average_run_time[0])/average_run_time[0] << " % faster" <<  std::endl;
+		std::cout << "\t Relative difference: OMP is " << 100 * std::abs(average_run_time[1] - average_run_time[0])/average_run_time[0] << " % faster" <<  std::endl;
 
 	}
 	std::cout << "Average summation times: " << std::endl;
@@ -97,7 +97,7 @@ int main() {
 	std::cout << "\t With OMP: " << average_run_time[3] << " s" <<  std::endl;
 	if (average_run_time[3] < average_run_time[2]) {
 		std::cout << "\t Absolute difference: " << average_run_time[2] - average_run_time[3] << " s in favor of OMP" <<  std::endl;
-		std::cout << "\t Relative difference: OMP is " << 100 * abs(average_run_time[3] - average_run_time[2])/average_run_time[2] << " % faster" <<  std::endl;
+		std::cout << "\t Relative difference: OMP is " << 100 * std::abs(average_run_time[3] - average_run_time[2])/average_run_time[2] << " % faster" <<  std::endl;
 		
 	}
 
