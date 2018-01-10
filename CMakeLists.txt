@@ -43,13 +43,15 @@ message("Default ${CMAKE_C_COMPILER} version is " ${GCC_VERSION})
 # Set up the C++17 and OMP compile flags 
 set(CMAKE_CXX_FLAGS "-std=c++17")
 
-if(APPLE AND EXISTS ${OMP_FRIENDLY_GCC_PATH}) # Else running on a MAC. Will attempt to switch compiler to get the OMP-friendly GCC 6.3.0_1 from Homebrew
+if(APPLE)
+	if(EXISTS ${OMP_FRIENDLY_GCC_PATH}) # Else running on a MAC. Will attempt to switch compiler to get the OMP-friendly GCC 6.3.0_1 from Homebrew
 		message("Switching to OMP-friendly GCC ")
     	set(CMAKE_C_COMPILER ${OMP_FRIENDLY_GCC_PATH}gcc-${OMP_FRIENDLY_GCC_MAJOR_VERSION} CACHE STRING "C Compiler" FORCE)
 		set(CMAKE_CXX_COMPILER ${OMP_FRIENDLY_GCC_PATH}g++-${OMP_FRIENDLY_GCC_MAJOR_VERSION} CACHE STRING "C++ Compiler" FORCE)
 
 	else()# no OMP-compliant compiler was found on this mac. 
 		message(FATAL_ERROR "No OMP-compliant compiler was found on this mac.")
+	endif()
 endif()
 
 
