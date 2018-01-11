@@ -38,7 +38,7 @@ if(APPLE)
 		message("Switching to OMP-friendly GCC ")
     	set(CMAKE_C_COMPILER ${OMP_FRIENDLY_GCC_PATH}gcc-${OMP_FRIENDLY_GCC_MAJOR_VERSION} CACHE STRING "C Compiler" FORCE)
 		set(CMAKE_CXX_COMPILER ${OMP_FRIENDLY_GCC_PATH}g++-${OMP_FRIENDLY_GCC_MAJOR_VERSION} CACHE STRING "C++ Compiler" FORCE)
-	    set (CMAKE_CXX_STANDARD 14)
+	    set (CMAKE_CXX_STANDARD 17)
 
 	else()# no OMP-compliant compiler was found on this mac. 
 		message(FATAL_ERROR "No OMP-compliant compiler was found on this mac.")
