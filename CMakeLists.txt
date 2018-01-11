@@ -33,20 +33,35 @@ set (OMP_FRIENDLY_GCC_PATH /usr/local/Cellar/gcc/7.2.0/bin/)
 get_filename_component(dirName ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 set(EXE_NAME ${dirName} CACHE STRING "Name of executable to be created.")
 
+# Checking which version of GCC is running
+
+
+
+
+
+
+
 if(APPLE)
 	if(EXISTS ${OMP_FRIENDLY_GCC_PATH}) # Else running on a MAC. Will attempt to switch compiler to get the OMP-friendly GCC 6.3.0_1 from Homebrew
 		message("Switching to OMP-friendly GCC ")
     	set(CMAKE_C_COMPILER ${OMP_FRIENDLY_GCC_PATH}gcc-${OMP_FRIENDLY_GCC_MAJOR_VERSION} CACHE STRING "C Compiler" FORCE)
 		set(CMAKE_CXX_COMPILER ${OMP_FRIENDLY_GCC_PATH}g++-${OMP_FRIENDLY_GCC_MAJOR_VERSION} CACHE STRING "C++ Compiler" FORCE)
-	    set (CMAKE_CXX_STANDARD 17)
 
 	else()# no OMP-compliant compiler was found on this mac. 
-		message(FATAL_ERROR "No OMP-compliant compiler was found on this mac.")
+		message(FATAL_ERROR "No OMP-compliant compiler was found on this Mac.")
 	endif()
+else() # Running on Linux. Will switch back to compiler in /usr/local/bin
+		message("Switching to /usr/local/gcc ")
+    	set(CMAKE_C_COMPILER "/usr/local/gcc" CACHE STRING "C Compiler" FORCE)
+		set(CMAKE_CXX_COMPILER "/usr/local/++" CACHE STRING "C++ Compiler" FORCE)
 endif()
 
+set (CMAKE_CXX_STANDARD 17)
 
 project(${EXE_NAME})
+
+
+
 
 # Specify the version used
 if (${CMAKE_MAJOR_VERSION} LESS 3)
@@ -61,7 +76,6 @@ include_directories(include)
 
 # Set up the C++17 and OMP compile flags 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
-
 
 # Find OpenMP
 find_package(OpenMP REQUIRED)
