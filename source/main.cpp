@@ -3,7 +3,6 @@
 #include <chrono>
 #include <cassert>
 #include <omp.h> // required only if using omp_get_num_threads() 
-#include <cmath>
 #include <armadillo>
 
 void demo_omp_arrays(double * average_run_time, int runs) {
