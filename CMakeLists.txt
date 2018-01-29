@@ -34,13 +34,6 @@ get_filename_component(dirName ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 set(EXE_NAME ${dirName} CACHE STRING "Name of executable to be created.")
 
 # Checking which version of GCC is running
-
-
-
-
-
-
-
 if(APPLE)
 	if(EXISTS ${OMP_FRIENDLY_GCC_PATH}) # Else running on a MAC. Will attempt to switch compiler to get the OMP-friendly GCC 6.3.0_1 from Homebrew
 		message("Switching to OMP-friendly GCC ")
@@ -55,8 +48,6 @@ else() # Running on Linux. Will switch back to compiler in /usr/local/bin
     	set(CMAKE_C_COMPILER "/usr/local/bin/gcc" CACHE STRING "C Compiler" FORCE)
 		set(CMAKE_CXX_COMPILER "/usr/local/bin/g++" CACHE STRING "C++ Compiler" FORCE)
 endif()
-
-set (CMAKE_CXX_STANDARD 17)
 
 project(${EXE_NAME})
 

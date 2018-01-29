@@ -131,7 +131,7 @@ int main() {
 
 
 # ifdef _OPENMP
-	std::cout << "Compiled by an OpenMP-compliant implementation.\n";
+	std::cout << "Compiled by an OpenMP-compliant compiler.\n";
 # endif
 
 	int runs = 100;
